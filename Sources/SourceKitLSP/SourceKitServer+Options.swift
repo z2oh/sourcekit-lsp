@@ -30,6 +30,9 @@ extension SourceKitServer {
     /// Additional arguments to pass to `clangd` on the command-line.
     public var clangdOptions: [String]
 
+    /// Overrides default workspace selection to prefer compilation database.
+    public var forceCompDBWorkspace: Bool
+
     /// Additional paths to search for a compilation database, relative to a workspace root.
     public var compilationDatabaseSearchPaths: [RelativePath]
 
@@ -52,6 +55,7 @@ extension SourceKitServer {
     public init(
       buildSetup: BuildSetup = .default,
       clangdOptions: [String] = [],
+      forceCompDBWorkspace: Bool = false,
       compilationDatabaseSearchPaths: [RelativePath] = [],
       indexOptions: IndexOptions = .init(),
       completionOptions: SKCompletionOptions = .init(),
@@ -60,6 +64,7 @@ extension SourceKitServer {
     ) {
       self.buildSetup = buildSetup
       self.clangdOptions = clangdOptions
+      self.forceCompDBWorkspace = forceCompDBWorkspace
       self.compilationDatabaseSearchPaths = compilationDatabaseSearchPaths
       self.indexOptions = indexOptions
       self.completionOptions = completionOptions

@@ -169,6 +169,12 @@ struct SourceKitLSP: ParsableCommand {
   )
   var indexPrefixMappings = [PathPrefixMapping]()
 
+  @Flag(
+    name: .customLong("compdb"),
+    help: "Override default workspace selection and force compilation database workspace"
+  )
+  var forceCompDBWorkspace = false
+
   @Option(
     name: .customLong("compilation-db-search-path"),
     parsing: .singleValue,
@@ -197,6 +203,7 @@ struct SourceKitLSP: ParsableCommand {
     serverOptions.buildSetup.flags.linkerFlags = buildFlagsLinker
     serverOptions.buildSetup.flags.swiftCompilerFlags = buildFlagsSwift
     serverOptions.clangdOptions = clangdOptions
+    serverOptions.forceCompDBWorkspace = forceCompDBWorkspace
     serverOptions.compilationDatabaseSearchPaths = compilationDatabaseSearchPaths
     serverOptions.indexOptions.indexStorePath = indexStorePath
     serverOptions.indexOptions.indexDatabasePath = indexDatabasePath

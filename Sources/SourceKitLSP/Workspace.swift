@@ -103,13 +103,21 @@ public final class Workspace {
     capabilityRegistry: CapabilityRegistry,
     toolchainRegistry: ToolchainRegistry,
     buildSetup: BuildSetup,
+    forceCompDBWorkspace: Bool,
     compilationDatabaseSearchPaths: [RelativePath],
     indexOptions: IndexOptions = IndexOptions(),
     reloadPackageStatusCallback: @escaping (ReloadPackageStatus) async -> Void
   ) async throws {
     var buildSystem: BuildSystem? = nil
     if let rootUrl = rootUri.fileURL, let rootPath = try? AbsolutePath(validating: rootUrl.path) {
-      if let buildServer = await BuildServerBuildSystem(projectRoot: rootPath, buildSetup: buildSetup) {
+      if forceCompDBWorkspace {
+        if let compdb = CompilationDatabaseBuildSystem(
+          projectRoot: rootPath,
+          searchPaths: compilationDatabaseSearchPaths
+        ) {
+          buildSystem = compdb
+        }
+      } else if let buildServer = await BuildServerBuildSystem(projectRoot: rootPath, buildSetup: buildSetup) {
         buildSystem = buildServer
       } else if let swiftpm = await SwiftPMWorkspace(
         url: rootUrl,

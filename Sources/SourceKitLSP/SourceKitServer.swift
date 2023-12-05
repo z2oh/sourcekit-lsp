@@ -1015,6 +1015,7 @@ extension SourceKitServer {
       capabilityRegistry: capabilityRegistry,
       toolchainRegistry: self.toolchainRegistry,
       buildSetup: self.options.buildSetup.merging(workspaceBuildSetup),
+      forceCompDBWorkspace: self.options.forceCompDBWorkspace,
       compilationDatabaseSearchPaths: self.options.compilationDatabaseSearchPaths,
       indexOptions: self.options.indexOptions,
       reloadPackageStatusCallback: { status in
